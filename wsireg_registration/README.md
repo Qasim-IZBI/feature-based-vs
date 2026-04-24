@@ -45,6 +45,35 @@ conda install -c conda-forge itk-elastix
 pip install wsireg openslide-python tifffile matplotlib Pillow
 ```
 
+## Supported input formats
+
+| Format | Supported | Notes |
+|---|---|---|
+| `.svs` | Yes | Leica Aperio — native OpenSlide |
+| `.ndpi` | Yes | Hamamatsu — native OpenSlide |
+| `.scn` | Yes | Leica SCN — native OpenSlide |
+| `.ome.tiff` | Yes | Pyramidal OME-TIFF |
+| `.tif` (pyramidal) | Yes | Must have embedded pyramid levels |
+| `.tif` (flat) | No | Convert first — see below |
+| `.czi` | No | Zeiss CZI — convert first (use Bio-Formats `bfconvert`) |
+
+### Converting a flat .tif to pyramidal OME-TIFF
+
+```bash
+# Convert H&E
+python convert_to_pyramid.py liver_HE.tif
+
+# Convert PSR
+python convert_to_pyramid.py liver_PSR.tif
+
+# Optional flags
+python convert_to_pyramid.py liver_HE.tif --out liver_HE_pyramid.ome.tiff --levels 6 --tile 512
+```
+
+The script builds each pyramid level by 2× average-pooling and writes a
+tiled, deflate-compressed BigTIFF. It stops adding levels automatically once
+the image drops below 512 px.
+
 ## Usage
 
 ```bash
