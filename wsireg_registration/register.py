@@ -96,13 +96,13 @@ def register(
     reg.add_modality(
         "PSR",
         str(psr_path),
-        pixel_size=pixel_size,
+        image_res=pixel_size,
         prepro_dict=PSR_PREPRO,
     )
     reg.add_modality(
         "HE",
         str(he_path),
-        pixel_size=pixel_size,
+        image_res=pixel_size,
         prepro_dict=HE_PREPRO,
     )
 
