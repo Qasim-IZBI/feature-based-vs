@@ -70,13 +70,13 @@ QC_PYRAMID_LEVEL      = 5      # which WSI pyramid level to use for QC thumbnail
 HE_PREPRO = {
     "as_uint8":         True,
     "ch_indices":       [1],      # green channel of RGB
-    "contrast_enhance": "clahe",
+    "contrast_enhance": True,
 }
 
 PSR_PREPRO = {
     "as_uint8":         True,
     "ch_indices":       [1],      # green channel of RGB
-    "contrast_enhance": "clahe",
+    "contrast_enhance": True,
 }
 
 
