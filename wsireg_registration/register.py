@@ -90,36 +90,36 @@ def register(
 ) -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
 
-    reg = WsiReg2D("HE_to_PSR", str(out_dir))
+    reg = WsiReg2D("PSR_to_HE", str(out_dir))
 
-    # PSR first so it becomes the fixed/reference modality
-    reg.add_modality(
-        "PSR",
-        str(psr_path),
-        image_res=pixel_size,
-        prepro_dict=PSR_PREPRO,
-    )
+    # HE first so it becomes the fixed/reference modality
     reg.add_modality(
         "HE",
         str(he_path),
         image_res=pixel_size,
         prepro_dict=HE_PREPRO,
     )
+    reg.add_modality(
+        "PSR",
+        str(psr_path),
+        image_res=pixel_size,
+        prepro_dict=PSR_PREPRO,
+    )
 
-    # Moving = HE, Fixed = PSR.  Three-stage pipeline in one call.
+    # Moving = PSR, Fixed = HE.  Three-stage pipeline in one call.
     # wsireg chains the transforms automatically; each stage initialises
     # from the previous result, so the non-linear step only needs to
     # capture residual local deformation after the rigid+affine pass.
     reg.add_reg_path(
-        "HE",
         "PSR",
+        "HE",
         reg_params=["rigid", "affine", "nl"],
     )
 
     print("[1/2] Running registration  rigid → affine → non-linear …")
     reg.register_images()
 
-    print("[2/2] Writing registered H&E as OME-TIFF pyramid …")
+    print("[2/2] Writing registered PSR as OME-TIFF pyramid …")
     reg.transform_images(file_writer="ome.tiff")
 
     print(f"\nDone. Output written to: {out_dir.resolve()}/")
