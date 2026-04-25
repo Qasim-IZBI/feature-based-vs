@@ -1,0 +1,11 @@
+# VALIS — install pyvips C library first (see README)
+valis-wsi>=1.0.0
+
+# WSI I/O (VALIS uses these internally)
+openslide-python>=1.3.0
+tifffile>=2023.1.1
+
+# General
+numpy>=1.24.0
+matplotlib>=3.7.0
+Pillow>=9.5.0
